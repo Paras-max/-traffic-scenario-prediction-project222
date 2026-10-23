@@ -1,0 +1,15 @@
+Metric,Value
+"All-data MSE",0.0098188294481279
+"Test MSE",0.0101007503737572
+"Test RMSE",0.100502489390847
+"Test MAE",0.0226524467768889
+"Accuracy all %",94.5867959372114
+"Accuracy test %",94.3575275711721
+"Macro F1 (test)",0.728544312544857
+"Baseline accuracy test %",95.1782508335471
+"Baseline MSE test",0.00964349833290587
+"Accuracy on label changes, test %",0
+"Closed-loop MSE",0.137931561048059
+"Closed-loop accuracy %",25.9118190212373
+"Closed-loop classes used",2
+"Step-ahead MSE",0.0098188294481279

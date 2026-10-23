@@ -1,0 +1,28 @@
+Timestep,PrevVehicle,FollVehicle,Distance,CarA_Behaviour
+1,Turn,Slow-Down,far,Hold
+2,Hold,Slow-Down,far,Hold
+3,Hold,Slow-Down,far,Hold
+4,Hold,Slow-Down,far,Hold
+5,Slow-Down,Slow-Down,far,Slow-Down
+6,Slow-Down,Slow-Down,far,Slow-Down
+7,Slow-Down,Slow-Down,far,Slow-Down
+8,Slow-Down,Slow-Down,far,Slow-Down
+9,Slow-Down,Slow-Down,far,Slow-Down
+10,Slow-Down,Slow-Down,far,Slow-Down
+11,Slow-Down,Slow-Down,far,Slow-Down
+12,Slow-Down,Slow-Down,far,Slow-Down
+13,Slow-Down,Slow-Down,far,Slow-Down
+14,Slow-Down,Slow-Down,near,Slow-Down
+15,Slow-Down,Slow-Down,near,Slow-Down
+16,Slow-Down,Slow-Down,near,Slow-Down
+17,Slow-Down,Speed-Up,near,ALERT: Possible rear-end risk
+18,Slow-Down,Speed-Up,near,ALERT: Possible rear-end risk
+19,Slow-Down,Speed-Up,near,ALERT: Possible rear-end risk
+20,Slow-Down,Speed-Up,near,ALERT: Possible rear-end risk
+21,Slow-Down,Speed-Up,near,ALERT: Possible rear-end risk
+22,Speed-Up,Speed-Up,near,Speed-Up
+23,Speed-Up,Turn,near,Hold
+24,Speed-Up,Hold,near,Hold
+25,Speed-Up,Hold,near,Hold
+26,Speed-Up,Hold,near,Hold
+27,Speed-Up,Slow-Down,near,Hold
