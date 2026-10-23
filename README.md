@@ -1,67 +1,61 @@
-# Project222
-## Traffic Data Analysis for Modelling and Prediction of Traffic Scenario - Girolamo Oddo 
+# Traffic Data Analysis for Modelling and Prediction of Traffic Scenarios
 
-#### Work carried out in relation to the "Mathworks Innovation Excellence" initiative
+Solution to **MathWorks Challenge Project 222** (MATLAB / Simulink).
+Authors: Paras Shah (24108B0019), Yash Khanvilkar (24108B0021), Shravani saravade (24108B0015), Gunjan Tale (24108B0025), Pushkaraj Kadam (24108B0016)  |  Institution: Vidyalankar Institute of Technology, Mumbai  |  Guide: Sheetal Patil
 
-[Project-specific Mathworks repository](https://github.com/mathworks/MathWorks-Excellence-in-Innovation/tree/main/projects/Traffic%20Data%20Analysis%20for%20Modelling%20and%20Prediction%20of%20Traffic%20Scenarios)
+## What it does
+Predicts what a vehicle is about to do (Slow-Down, Speed-Up, Turn, Smooth-Turn, Left-Turn, Right-Turn, Traffic-Light, Loop, Other, Jiggling) from its speed, acceleration, heading and heading change, using a NARX time-series neural network trained on the DACT car-trajectory dataset (50 trips; 25,994 rows used for the network).
 
-[Global site](https://it.mathworks.com/academia/matlab-engineering-project-ideas.html)
+Beyond the starting solution (see Credits) this repository adds:
+1. **Evaluation:** test-only error, accuracy, confusion matrix, per-class scores, a copy-previous-label baseline and a closed-loop check.
+2. **Simulink:** the trained network run on real data (27 steps) through From Workspace blocks.
+3. **Driving-style clustering (advanced objective):** k-means, Gaussian mixture and hierarchical clustering of trips; 3 clusters found.
+4. **V2V rule table:** 18-case behaviour table from the original report, including a rear-end-risk alert for the case the report left undefined.
 
-#### MathWorks courses useful for understanding the work:
+## Repository layout
+| Folder | Contents |
+|---|---|
+| `code/` | MATLAB scripts, `untitled.slx` and the data files they load (scripts expect the data in the same folder) |
+| `results/` | screenshots, figures and output CSV files |
+| `original/` | files from the starting solution, with its licence |
 
-["MATLAB for Data Processing and Visualization"](https://matlabacademy.mathworks.com/details/matlab-for-data-processing-and-visualization/mlvi)
+## Requirements
+MATLAB R2021a or later (tested on R2025b) with Deep Learning Toolbox, Statistics and Machine Learning Toolbox and Simulink.
 
-["Machine Learning with MATLAB"](https://matlabacademy.mathworks.com/details/machine-learning-with-matlab/mlml)
+## How to run
+Make `code/` the current folder, then run each script as a whole file, in this order:
+1. `Code_NARXnet_Evaluated.m` - trains and evaluates the NARX network (about 30 s, fixed seed).
+2. `RunFullPipeline.m` - runs `untitled.slx` on the demo data and prints predicted behaviours.
+3. `V2V_BehaviourMapping.m` - run straight after step 2 (it uses its predictions).
+4. `DrivingStyleClustering.m` - clustering figures and `trip_features_zscored.csv`.
 
-["Deep Learning with MATLAB"](https://matlabacademy.mathworks.com/details/deep-learning-with-matlab/mldl)
-______________________________________________________________________
-### WHAT WAS DONE?
-In this work, following a systematic approach, a Nonlinear-Autoregressive (NARX) type model was developed in order to predict the behaviour of a vehicle in traffic, with the following performance in Test:
-*R^2 0.90*
-*MSE 9.47 e-3*.
+`FixSimulinkModel.m` tidies the Simulink model (explicit sample times); it is run once.
 
-A method for the application of the obtained model has also been proposed in the report. 
+## Results (seed 1)
+| Measure | Value |
+|---|---|
+| Test MSE / RMSE / MAE | 0.0101 / 0.1005 / 0.0227 |
+| Accuracy (test / all rows) | 94.4% / 94.6% |
+| Macro F1 (test) | 0.73 |
+| Copy-previous-label baseline (test) | 95.2% accuracy |
+| Closed-loop accuracy | 25.9% |
+| Driving-style clusters | 3 (10, 12, 28 trips) |
+| V2V rule table | 18 of 18 cases correct |
 
-______________________________________________________________________
-### WHAT'S IN THE REPOSITORY?
+## Limitations
+- The network is given the true previous label, so it mostly carries it forward; it does not beat the copy-previous-label baseline and predicts no label changes.
+- Left-Turn and Right-Turn (21 and 12 test rows) are never recognised.
+- The Simulink demo output follows its feedback input one step later; it shows the network running on streaming data, not independent forecasting.
+- Clustering uses only 50 trips and is exploratory.
+- The V2V demo uses a time-shifted copy as the second vehicle and a constructed distance profile; it is not a validation on real traffic.
+- The script that builds `NN-IN.xlsx` and `NN-TARG.csv` from the raw DACT data is not part of the starting solution.
 
-• "Traffic Data Analysis for Modelling and Prediction of Traffic Scenario.pdf"
+## Data
+DACT: Dataset of Annotated Car Trajectories (Moosavi et al.), https://figshare.com/articles/dataset/DACT_Dataset_of_Annotated_Car_Trajectories/5005289
 
-This is an extended description of the work performed and the results obtained.
+The DACT CSV files are **not included** in this repository. For `DrivingStyleClustering.m`, download `DACTStrictDataset.csv` from the link above and place it in `code/`. The NARX scripts only need the smaller files already in `code/` (`NN-IN.xlsx`, `NN-TARG.csv`, `X-Input.xlsx`, `Y-FeedBack.csv`).
 
-• "Code_NARXnet.m" This is the MATLAB file where it is possible to inspect what has been done. 
+If you use the dataset, please cite: S. Moosavi et al., "Trajectory Annotation by Discovering Driving Patterns", UrbanGIS 2017.
 
-• "Live_Code_NARXnet.mlx" This is the MATLAB Live Script file where it is possible to run a new training session. 
-
-• "Live_NN.mlx" This is the MATLAB Live Script file where it is possible to use the pre-trained network "NARXnet_TRAINED.mat". 
-
-• "NARXnet_TRAINED.mat" This is the TRAINED NET.
-
-• "NN-IN.xlsx" This is the Inputs set used to train and test the net.
-
-• "NN-TARG.csv" This is the Target set used to train and test the net.
-
-• "X-Input.xlsx" This is the Inputs set used in "Live_NN.mlx".
-
-• "Y-FeedBack.csv" This is the FeedBack set used in "Live_NN.mlx".
-
-• The file "Untitled.slx" and "MyNeuralNetworkFunction.m" are the Simulink block and MATLAB code of the NARX network respectively.
-______________________________________________________________________
-### HOW TO USE IT?
-
-*If you want to use the pre-trained network*
-1. Download the files:
-"X-Input.xlsx", "Y-FeedBack.csv", "NARXnet_TRAINED.mat", "Live_NN.mlx".
-2. Save the files in the same folder.
-3. Open "Live_NN.mlx" with MATLAB ( with the " Deep Learning Toolbox" installed ).
-4. Run and get the predictions!
-
-
-*If you want to train your NARX network with the datasets used in this work* 
-1. Download the files:
-"NN-IN.xlsx", "NN-TARG.csv", "Code_NARXnet.mlx".
-2. Save the files in the same folder.
-3. Open "Live_Code_NARXnet.mlx" with MATLAB ( with the " Deep Learning Toolbox" installed ).
-4. Run and train the network!
-
-
+## Credits and licence
+Builds on the public repository **Project222** by Girolamo Oddo (MIT licence, 2022), a solution to the same MathWorks project. The files in `original/` are his; the evaluation, Simulink run, clustering and V2V code are ours. Released under the MIT licence; see `LICENSE` (it keeps the original copyright notice).
